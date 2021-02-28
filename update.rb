@@ -104,9 +104,48 @@ parser = Dependabot::FileParsers.for_package_manager(package_manager).new(
   credentials: credentials,
 )
 
-dependencies = parser.parse
+dependencies = parser.parse.select(&:top_level?)
 opened_merge_requests = 0
-dependencies.select(&:top_level?).each do |dep|
+
+# delete obsolete branches
+# PLAN: here, delete all non current dependencies branches for the package manager
+# THEN in the main loop,
+#
+# CASES TO THINK ABOUT
+# 1. dependency was deleted, and the dependabot branch / MR is still up (should delete all)
+# 2. the dependency no longer needs to be updated (merged elsewhere), and the dependabot branch / MR is still up (should delete all)
+# 3. the dependency has a new update, but still has an existing branch (from a previously closed MR) (should delete all)
+#
+# thoughts, for 2 & 3, in the main loop get the branch of the mr, and delete all other branches for that dependency
+# dependabot/docker/node-15.10.0-alpine
+
+gitlab_client_outside = Dependabot::Clients::GitlabWithRetries.for_source(
+  source: source,
+  credentials: credentials
+)
+branches = gitlab_client_outside.branches(repo_name, search: "dependabot/#{package_manager}/")
+branch_names = branches.map{|b| b.name}
+puts "\nbranches: #{branch_names.inspect}\n\n"
+branches.each do |branch|
+  puts "branch: #{branch.inspect}"
+
+end
+puts "\nbranches: #{branch_names.inspect}\n"
+
+# opened_merge_requests_for_this_dep = []
+# loop do
+#   opened_merge_requests_for_this_dep = gitlab_client.merge_requests(
+#     repo_name,
+#     state: "opened",
+#     search: "\"Bump #{dep.name}\"",
+#     in: "title",
+#     with_merge_status_recheck: true
+#   )
+#   break unless opened_merge_requests_for_this_dep.map(&:merge_status).include?('checking')
+# end
+
+
+dependencies.each do |dep|
   if ENV["DEPENDABOT_MAX_MERGE_REQUESTS"] && opened_merge_requests >= ENV["DEPENDABOT_MAX_MERGE_REQUESTS"].to_i
     puts "Opened merge request limit reached!"
     break
