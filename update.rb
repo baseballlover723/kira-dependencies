@@ -182,9 +182,10 @@ dependencies.select(&:top_level?).each do |dep|
       if title.include?(dep.name) && title.include?(dep.version)
         if !title.include?(updated_deps[0].version)
           # close old version MR
-          gitlab_client.update_merge_request(repo_name, omr.iid, { state_event: "close" })
-          gitlab_client.delete_branch(repo_name, omr.source_branch)
-          puts " closed merge request ##{omr.iid}"
+          # gitlab_client.update_merge_request(repo_name, omr.iid, { state_event: "close" })
+          # gitlab_client.delete_branch(repo_name, omr.source_branch)
+          # puts " closed merge request ##{omr.iid}"
+          puts "WOULD OF closed merge request ##{omr.iid}"
           next
         end
         if omr.merge_status != "can_be_merged"
@@ -211,9 +212,10 @@ dependencies.select(&:top_level?).each do |dep|
         credentials: credentials,
         pull_request_number: conflict_merge_request_id,
       )
-      pr_updater.update
+      # pr_updater.update
       merge_request_id = conflict_merge_request_id
-      print " merge request ##{conflict_merge_request_id} updated"
+      # print " merge request ##{conflict_merge_request_id} updated"
+      print "WOULD OF merge request ##{conflict_merge_request_id} updated"
     else
       ########################################
       # Create a pull request for the update #
@@ -227,9 +229,10 @@ dependencies.select(&:top_level?).each do |dep|
         label_language: true,
         assignees: assignees
       )
-      pull_request = pr_creator.create
-      merge_request_id = pull_request.iid if pull_request
-      print " submitted"
+      # pull_request = pr_creator.create
+      # merge_request_id = pull_request.iid if pull_request
+      # print " submitted"
+      print "WOULD OF submitted"
     end
 
     opened_merge_requests += 1

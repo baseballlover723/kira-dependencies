@@ -1,3 +1,5 @@
 /.bundle
 /native-helpers
 git.store
+.envrc
+.tool-versions
