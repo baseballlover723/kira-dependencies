@@ -1,33 +1,8 @@
-GEM
-  remote: https://rubygems.org/
+GIT
+  remote: https://github.com/baseballlover723/dependabot-core.git
+  revision: cf1962332b5be22ad608874bb396029b7ac4ce01
+  branch: main
   specs:
-    activesupport (6.1.4.1)
-      concurrent-ruby (~> 1.0, >= 1.0.2)
-      i18n (>= 1.6, < 2)
-      minitest (>= 5.1)
-      tzinfo (~> 2.0)
-      zeitwerk (~> 2.3)
-    addressable (2.8.0)
-      public_suffix (>= 2.0.2, < 5.0)
-    ast (2.4.2)
-    aws-eventstream (1.2.0)
-    aws-partitions (1.503.0)
-    aws-sdk-codecommit (1.45.0)
-      aws-sdk-core (~> 3, >= 3.120.0)
-      aws-sigv4 (~> 1.1)
-    aws-sdk-core (3.121.0)
-      aws-eventstream (~> 1, >= 1.0.2)
-      aws-partitions (~> 1, >= 1.239.0)
-      aws-sigv4 (~> 1.1)
-      jmespath (~> 1.0)
-    aws-sdk-ecr (1.46.0)
-      aws-sdk-core (~> 3, >= 3.120.0)
-      aws-sigv4 (~> 1.1)
-    aws-sigv4 (1.4.0)
-      aws-eventstream (~> 1, >= 1.0.2)
-    citrus (3.0.2)
-    commonmarker (0.23.2)
-    concurrent-ruby (1.1.9)
     dependabot-bundler (0.162.1)
       dependabot-common (= 0.162.1)
     dependabot-cargo (0.162.1)
@@ -92,6 +67,37 @@ GEM
       dependabot-common (= 0.162.1)
     dependabot-terraform (0.162.1)
       dependabot-common (= 0.162.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (6.1.4.1)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+      zeitwerk (~> 2.3)
+    addressable (2.8.0)
+      public_suffix (>= 2.0.2, < 5.0)
+    ast (2.4.2)
+    aws-eventstream (1.2.0)
+    aws-partitions (1.503.0)
+    aws-sdk-codecommit (1.45.0)
+      aws-sdk-core (~> 3, >= 3.120.0)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-core (3.121.0)
+      aws-eventstream (~> 1, >= 1.0.2)
+      aws-partitions (~> 1, >= 1.239.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sdk-ecr (1.47.0)
+      aws-sdk-core (~> 3, >= 3.120.0)
+      aws-sigv4 (~> 1.1)
+    aws-sigv4 (1.4.0)
+      aws-eventstream (~> 1, >= 1.0.2)
+    citrus (3.0.2)
+    commonmarker (0.23.2)
+    concurrent-ruby (1.1.9)
     docker_registry2 (1.10.0)
       rest-client (>= 1.8.0)
     domain_name (0.5.20190701)
@@ -135,7 +141,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     netrc (0.11.0)
-    nokogiri (1.12.4-x86_64-linux)
+    nokogiri (1.12.4-x86_64-darwin)
       racc (~> 1.4)
     octokit (4.21.0)
       faraday (>= 0.9)
@@ -168,13 +174,13 @@ GEM
     zeitwerk (2.4.2)
 
 PLATFORMS
-  x86_64-linux
+  x86_64-darwin-19
 
 DEPENDENCIES
-  dependabot-omnibus (~> 0.162.1)
+  dependabot-omnibus!
 
 RUBY VERSION
    ruby 2.7.1p83
 
 BUNDLED WITH
-   2.2.20
+   2.2.26

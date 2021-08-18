@@ -1,6 +1,6 @@
 FROM dependabot/dependabot-core
 
-COPY Gemfile Gemfile.lock ./
+COPY --chown=dependabot:dependabot Gemfile Gemfile.lock ./
 RUN bundle install -j $(nproc) --path vendor
 
 ENV GITLAB_HOSTNAME=sig-gitlab.internal.synopsys.com/
@@ -17,7 +17,7 @@ ARG PACKAGE_MANAGER_ARG
 ENV PACKAGE_MANAGER=$PACKAGE_MANAGER_ARG
 ENV PACKAGE_MANAGER_SET=$PACKAGE_MANAGER
 
-#ENV DEBUG_HELPERS=true
+ENV DEBUG_HELPERS=true
 
 COPY update.rb ./
 

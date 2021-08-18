@@ -14,6 +14,12 @@ require "dependabot/pull_request_updater"
 require "dependabot/omnibus"
 require "gitlab"
 
+LOG_URL = "http://host.docker.internal:3005/"
+# LOG_URL = "http://localhost:3005/"
+
+HTTParty.post(LOG_URL + "init", body: {file_path: "../../open_source/kira-dependencies/#{Time.now}.log"}.to_json, headers: {'Content-Type': 'application/json'})
+HTTParty.post(LOG_URL + "log", body: {message: "Running"}.to_json, headers: {'Content-Type': 'application/json'})
+
 gitlab_hostname = ENV["GITLAB_HOSTNAME"] || "gitlab.com"
 credentials = [
   {
@@ -106,13 +112,18 @@ parser = Dependabot::FileParsers.for_package_manager(package_manager).new(
 
 dependencies = parser.parse
 opened_merge_requests = 0
-dependencies.select(&:top_level?).each do |dep|
+deps = dependencies.select(&:top_level?)
+deps = deps.first(10)
+deps = deps.drop(1)
+deps.each.with_index do |dep, i|
   if ENV["DEPENDABOT_MAX_MERGE_REQUESTS"] && opened_merge_requests >= ENV["DEPENDABOT_MAX_MERGE_REQUESTS"].to_i
     puts "Opened merge request limit reached!"
     break
   end
 
   begin
+    HTTParty.post(LOG_URL + "log", body: {message: "******************** checking #{dep.name} (#{i+1} / #{deps.size}) ********************"}.to_json, headers: {'Content-Type': 'application/json'})
+    print "\n  - #{Time.now} checking #{dep.name} (#{i+1} / #{deps.size})"
 
     #########################################
     # Get update details for the dependency #
@@ -267,9 +278,11 @@ dependencies.select(&:top_level?).each do |dep|
     end
   rescue StandardError => e
     raise e if fail_on_exception
+    puts "\n*********** ERROR #{Time.now}"
     puts "error updating #{dep.name} (continuing)"
     puts e.full_message
   end
 end
 
+HTTParty.post(LOG_URL + "close")
 puts "Done"
